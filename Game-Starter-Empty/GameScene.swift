@@ -27,6 +27,9 @@ class GameScene: SKScene {
         //Called when the scene has been displayed
         
         //TODO: Create three squares with the names one,two,three
+        self.createSquares(name: "one")
+        self.createSquares(name: "two")
+        self.createSquares(name: "three")
         
         //Setup the scoreLabel
         labelSetUp()
@@ -57,21 +60,32 @@ class GameScene: SKScene {
         //1. Create a CGSize for the square with (width: 80, height: 80)
         //2. Create a Square node with a texture of nil. a color of .green and the size we created above
         //3. Set the squares name to the name we pass into this function
-        
+        let size = CGSize(width: 80, height: 80)
+        let square = SKSpriteNode(texture: nil, color: .green, size: size)
+        square.name = name
         
         //TODO: Set up the Squares x and y positions
         //1. Squares y positions shoud start at 40
         //2. Squares x positon should use the randomNumber generator provided above
+        square.position.y = 40
+        square.position.x = randomNumber()
         
         //Create an action to move the square up the screen
         let action = SKAction.customAction(withDuration: 2.0, actionBlock: { (square, _) in
             //TODO: Set up the squares animation
             //1. The squares y position should increase by 10
+            square.position.y += 10
             //2. Create an if statement that checks if the squares y position is >= to the screens height
             //If it is remove the square and create a new square with the same name
+            if square.position.y >= self.view!.bounds.height {
+                square.removeFromParent()
+                self.createSquares(name: name)
+            }
         })
         
         //TODO: Have the square run the above animation forever and add the square to the SKScene!
+        square.run(SKAction.repeatForever(action))
+        addChild(square)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -87,6 +101,7 @@ class GameScene: SKScene {
             //Check if there is an node there.
             if name != nil {
                 //TODO: Remove the square
+                
                 //Remove node from parent view
                 //Increase the score by one
                 //Create the square again with the same name
