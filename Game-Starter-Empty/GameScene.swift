@@ -97,14 +97,18 @@ class GameScene: SKScene {
             
             //Find the name for the node in that location
             let name = self.atPoint(positionInScene).name
+            let node = self.atPoint(positionInScene)
             
             //Check if there is an node there.
             if name != nil {
                 //TODO: Remove the square
-                
                 //Remove node from parent view
+                node.removeFromParent()
                 //Increase the score by one
+                score += 1
+                scoreLabel.text = String(score)
                 //Create the square again with the same name
+                createSquares(name: name!)
             }
         }
     }
